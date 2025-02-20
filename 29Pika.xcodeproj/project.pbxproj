@@ -459,7 +459,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = 29Pika/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Pik & Verse Video Editor\n";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pika art\n";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow access to access the gallery";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We would like to access your gallery to save videos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -494,7 +494,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = 29Pika/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Pik & Verse Video Editor\n";
+				INFOPLIST_KEY_CFBundleDisplayName = "Pika art\n";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow access to access the gallery";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We would like to access your gallery to save videos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
