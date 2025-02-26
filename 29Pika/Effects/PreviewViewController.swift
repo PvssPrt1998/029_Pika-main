@@ -9,7 +9,7 @@ import UIKit
 import GSPlayer
 import Combine
 
-class PreviewViewController: UIViewController {
+class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     
     let model: MainModel
     let item: Effect
@@ -43,9 +43,20 @@ class PreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black.withAlphaComponent(0.4)
+        
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+        view.addGestureRecognizer(gestureRecognizer)
+        gestureRecognizer.cancelsTouchesInView = false
+        gestureRecognizer.delegate = self
+        view.addGestureRecognizer(gestureRecognizer)
+        
         setupUI()
     }
     
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                                 shouldReceive touch: UITouch) -> Bool {
+            return (touch.view === self.view)
+          }
 
     private func setupUI() {
         let mainView = UIView()
@@ -115,7 +126,7 @@ class PreviewViewController: UIViewController {
         player?.layer.cornerRadius = 10
         player?.clipsToBounds = true
         player?.playerLayer.videoGravity = .resizeAspectFill
-        if let url = URL(string: item.previewSmall ?? "") {
+        if let url = Bundle.main.url(forResource: item.previewSmall ?? "", withExtension: "mp4") {
             player?.play(for: url)
             player?.isMuted = true
         }
@@ -149,8 +160,10 @@ class PreviewViewController: UIViewController {
     
     private func isLike() -> Bool {
         if model.favoriteArrID.contains(where: {$0 == item.id}) {
+            print("Is like true")
             return true
         } else {
+            print("Is like false")
             return false
         }
     }
@@ -162,12 +175,13 @@ class PreviewViewController: UIViewController {
                 likeButton.setImage( .dislike.withRenderingMode(.alwaysOriginal).resize(targetSize: CGSize(width: 32, height: 32)), for: .normal)
             }
         } else {
+            print("favorite \(item.id)")
             model.favoriteArrID.append(item.id)
             likeButton.setImage( .like.withRenderingMode(.alwaysOriginal).resize(targetSize: CGSize(width: 32, height: 32)), for: .normal)
         }
         likeButton.tintColor = isLike() ? .systemRed : .white
         model.saveFavoritesArr()
-        publisherFavirite.send(1)
+        //publisherFavirite.send(1)
     }
     
     @objc func openPaywall() {

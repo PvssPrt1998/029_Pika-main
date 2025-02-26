@@ -29,6 +29,7 @@ class MainModel {
             
             var arrURL: [URL] = []
             for i in self.arr {
+                //print(i)
                 if let url = URL(string: i.previewSmall ?? "") {
                     arrURL.append(url)
                 }

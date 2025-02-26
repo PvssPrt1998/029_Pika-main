@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -37,6 +37,20 @@
 		154EF6ED2D0B3BFE00709CD0 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154EF6EC2D0B3BFE00709CD0 /* MainModel.swift */; };
 		154EF6EF2D0B3ED800709CD0 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154EF6EE2D0B3ED800709CD0 /* Extension.swift */; };
 		154EF6F22D0B3F2700709CD0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 154EF6F12D0B3F2700709CD0 /* SnapKit */; };
+		99495CBF2D6E1AEC009F09E5 /* LevitateIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CBE2D6E1AEC009F09E5 /* LevitateIt.mp4 */; };
+		99495CC52D6E1B33009F09E5 /* InflateIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CC02D6E1B33009F09E5 /* InflateIt.mp4 */; };
+		99495CC62D6E1B33009F09E5 /* PeelIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CC22D6E1B33009F09E5 /* PeelIt.mp4 */; };
+		99495CC72D6E1B33009F09E5 /* MeltIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CC12D6E1B33009F09E5 /* MeltIt.mp4 */; };
+		99495CC82D6E1B33009F09E5 /* TaDaIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CC32D6E1B33009F09E5 /* TaDaIt.mp4 */; };
+		99495CC92D6E1B33009F09E5 /* TearIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CC42D6E1B33009F09E5 /* TearIt.mp4 */; };
+		99495CCD2D6E1B4E009F09E5 /* EyePopIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CCB2D6E1B4E009F09E5 /* EyePopIt.mp4 */; };
+		99495CCE2D6E1B4E009F09E5 /* DecapitateIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CCA2D6E1B4E009F09E5 /* DecapitateIt.mp4 */; };
+		99495CCF2D6E1B4E009F09E5 /* PokeIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495CCC2D6E1B4E009F09E5 /* PokeIt.mp4 */; };
+		99495E012D6E1E85009F09E5 /* ExplodeIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495E002D6E1E85009F09E5 /* ExplodeIt.mp4 */; };
+		99495E032D6E201E009F09E5 /* DissolveIt.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495E022D6E201E009F09E5 /* DissolveIt.mp4 */; };
+		99495E072D6E204B009F09E5 /* WizardHat.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495E062D6E204B009F09E5 /* WizardHat.mp4 */; };
+		99495E082D6E204B009F09E5 /* SheepCurls.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495E052D6E204B009F09E5 /* SheepCurls.mp4 */; };
+		99495E092D6E204B009F09E5 /* HairGrowthMagic.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 99495E042D6E204B009F09E5 /* HairGrowthMagic.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +82,20 @@
 		154EF6E92D0B3BB200709CD0 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		154EF6EC2D0B3BFE00709CD0 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		154EF6EE2D0B3ED800709CD0 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		99495CBE2D6E1AEC009F09E5 /* LevitateIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = LevitateIt.mp4; sourceTree = "<group>"; };
+		99495CC02D6E1B33009F09E5 /* InflateIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = InflateIt.mp4; sourceTree = "<group>"; };
+		99495CC12D6E1B33009F09E5 /* MeltIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = MeltIt.mp4; sourceTree = "<group>"; };
+		99495CC22D6E1B33009F09E5 /* PeelIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = PeelIt.mp4; sourceTree = "<group>"; };
+		99495CC32D6E1B33009F09E5 /* TaDaIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TaDaIt.mp4; sourceTree = "<group>"; };
+		99495CC42D6E1B33009F09E5 /* TearIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = TearIt.mp4; sourceTree = "<group>"; };
+		99495CCA2D6E1B4E009F09E5 /* DecapitateIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = DecapitateIt.mp4; sourceTree = "<group>"; };
+		99495CCB2D6E1B4E009F09E5 /* EyePopIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = EyePopIt.mp4; sourceTree = "<group>"; };
+		99495CCC2D6E1B4E009F09E5 /* PokeIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = PokeIt.mp4; sourceTree = "<group>"; };
+		99495E002D6E1E85009F09E5 /* ExplodeIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ExplodeIt.mp4; sourceTree = "<group>"; };
+		99495E022D6E201E009F09E5 /* DissolveIt.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = DissolveIt.mp4; sourceTree = "<group>"; };
+		99495E042D6E204B009F09E5 /* HairGrowthMagic.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = HairGrowthMagic.mp4; sourceTree = "<group>"; };
+		99495E052D6E204B009F09E5 /* SheepCurls.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SheepCurls.mp4; sourceTree = "<group>"; };
+		99495E062D6E204B009F09E5 /* WizardHat.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WizardHat.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +172,7 @@
 		154EF6D02D0B3B7500709CD0 /* 29Pika */ = {
 			isa = PBXGroup;
 			children = (
+				99495CBD2D6E1A63009F09E5 /* Videos */,
 				153AE4822D1C1F840096D4B8 /* Settings */,
 				153AE47B2D1B0E5E0096D4B8 /* OpenedVideo */,
 				151DE2CE2D1053E900822340 /* Effects */,
@@ -199,6 +228,27 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		99495CBD2D6E1A63009F09E5 /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				99495E042D6E204B009F09E5 /* HairGrowthMagic.mp4 */,
+				99495E052D6E204B009F09E5 /* SheepCurls.mp4 */,
+				99495E062D6E204B009F09E5 /* WizardHat.mp4 */,
+				99495E022D6E201E009F09E5 /* DissolveIt.mp4 */,
+				99495E002D6E1E85009F09E5 /* ExplodeIt.mp4 */,
+				99495CCA2D6E1B4E009F09E5 /* DecapitateIt.mp4 */,
+				99495CCB2D6E1B4E009F09E5 /* EyePopIt.mp4 */,
+				99495CCC2D6E1B4E009F09E5 /* PokeIt.mp4 */,
+				99495CC02D6E1B33009F09E5 /* InflateIt.mp4 */,
+				99495CC12D6E1B33009F09E5 /* MeltIt.mp4 */,
+				99495CC22D6E1B33009F09E5 /* PeelIt.mp4 */,
+				99495CC32D6E1B33009F09E5 /* TaDaIt.mp4 */,
+				99495CC42D6E1B33009F09E5 /* TearIt.mp4 */,
+				99495CBE2D6E1AEC009F09E5 /* LevitateIt.mp4 */,
+			);
+			path = Videos;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -241,7 +291,7 @@
 				};
 			};
 			buildConfigurationList = 154EF6C92D0B3B7500709CD0 /* Build configuration list for PBXProject "29Pika" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -269,12 +319,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99495CBF2D6E1AEC009F09E5 /* LevitateIt.mp4 in Resources */,
+				99495E032D6E201E009F09E5 /* DissolveIt.mp4 in Resources */,
 				151DE2CB2D103DD400822340 /* SF-Pro-Text-Regular.otf in Resources */,
 				151DE2C92D103DD400822340 /* SF-Pro-Text-Semibold.otf in Resources */,
 				153AE48A2D1DB06D0096D4B8 /* testMain.storekit in Resources */,
+				99495E012D6E1E85009F09E5 /* ExplodeIt.mp4 in Resources */,
+				99495CC52D6E1B33009F09E5 /* InflateIt.mp4 in Resources */,
+				99495CC62D6E1B33009F09E5 /* PeelIt.mp4 in Resources */,
+				99495CC72D6E1B33009F09E5 /* MeltIt.mp4 in Resources */,
+				99495CC82D6E1B33009F09E5 /* TaDaIt.mp4 in Resources */,
+				99495CC92D6E1B33009F09E5 /* TearIt.mp4 in Resources */,
+				99495E072D6E204B009F09E5 /* WizardHat.mp4 in Resources */,
+				99495E082D6E204B009F09E5 /* SheepCurls.mp4 in Resources */,
+				99495E092D6E204B009F09E5 /* HairGrowthMagic.mp4 in Resources */,
 				153AE48C2D1DC7B20096D4B8 /* SecondRound.storekit in Resources */,
 				154EF6DE2D0B3B7600709CD0 /* LaunchScreen.storyboard in Resources */,
 				154EF6DB2D0B3B7600709CD0 /* Assets.xcassets in Resources */,
+				99495CCD2D6E1B4E009F09E5 /* EyePopIt.mp4 in Resources */,
+				99495CCE2D6E1B4E009F09E5 /* DecapitateIt.mp4 in Resources */,
+				99495CCF2D6E1B4E009F09E5 /* PokeIt.mp4 in Resources */,
 				151DE2CA2D103DD400822340 /* SF-Pro-Text-Medium.otf in Resources */,
 				154EF6D92D0B3B7500709CD0 /* Main.storyboard in Resources */,
 			);

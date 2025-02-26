@@ -1,10 +1,3 @@
-//
-//  EffectsViewController.swift
-//  29Pika
-//
-//  Created by Владимир Кацап on 16.12.2024.
-//
-
 import UIKit
 import GSPlayer
 import Combine
@@ -16,7 +9,23 @@ class EffectsViewController: UIViewController {
     private let facoritePublisher = PassthroughSubject<Any,Never>()
     private let genTappedPublisher = PassthroughSubject<Effect,Never>()
     
-    private lazy var sortedArr: [Effect] = []
+    private lazy var sortedArr: [Effect] = [
+        Effect(id: 1, ai: "pv", effect: "Levitate it", preview: "https://vewapnew.online/storage/preview/9JX57sakrQniJBdcFfyBWDXmDfIQj3UfmlDJkpax.mp4?t=1738906171", previewSmall: "LevitateIt"),
+        Effect(id: 4, ai: "pv", effect: "Inflate it", preview: "https://vewapnew.online/storage/preview/iDNDGK5y9zMMatybYoK9tCZnywS8MU8IWWJFaV8Z.mp4?t=1738906171", previewSmall: "InflateIt"),
+        Effect(id: 5, ai: "pv", effect: "Melt it", preview: "https://vewapnew.online/storage/preview/ssPRdA5xjg8EajVxgRgC7bZxTq65jqsYs4bMcTON.mp4?t=1738906171", previewSmall: "MeltIt"),
+        Effect(id: 10, ai: "pv", effect: "Ta-da it", preview: "https://vewapnew.online/storage/preview/6oDcfuMjn9T2wwWniSvB3cEvPTNXXxmXLFd3yybj.mp4?t=1738906171", previewSmall: "TaDaIt"),
+        Effect(id: 13, ai: "pv", effect: "Dissolve it", preview: "https://vewapnew.online/storage/preview/zQWrJEFKvsfHFsClgR5yzW3yHCVXLlmQWM6rGdz7.mp4?t=1738906171", previewSmall: "DissolveIt"),
+        Effect(id: 54, ai: "pv", effect: "Peel it", preview: "https://vewapnew.online/storage/preview/oEZtP4cU5TV3OLMfqonk2zcHsviwv1FpD9bHKbIq.mp4?t=1738906171", previewSmall: "PeelIt"),
+        Effect(id: 56, ai: "pv", effect: "Tear it", preview: "https://vewapnew.online/storage/preview/EWQXghnpVLCGdOJXPfK2miVaLCDbFrcpJLrV7srv.mp4?t=1738906171", previewSmall: "TearIt"),
+        Effect(id: 2, ai: "pv", effect: "Decapitate it", preview: "https://vewapnew.online/storage/preview/QolvHeHOCxB3naJbijWEDUJmNPrifsUlVqNvGLxv.mp4?t=1738906171", previewSmall: "DecapitateIt"),
+        Effect(id: 3, ai: "pv", effect: "Eye-pop it", preview: "https://vewapnew.online/storage/preview/vWy7H3nQovCQPfVMsN00SaZzDJjZDNqGUJgyiqTA.mp4?t=1738906171", previewSmall: "EyePopIt"),
+        Effect(id: 55, ai: "pv", effect: "Poke it", preview: "https://vewapnew.online/storage/preview/Rk5i55bQqimTh0YaFeeLAVTpI0nhA3J64U3QjrgE.mp4?t=1738906171", previewSmall: "PokeIt"),
+        Effect(id: 6, ai: "pika", effect: "Explode it", preview: "https://vewapnew.online/storage/preview/lQNR8fvmKDD3p36lb6dDsj4RNXiPVPKCwC4u5B9e.mp4?t=1737103978", previewSmall: "ExplodeIt"),
+        Effect(id: 57, ai: "pv", effect: "Sheep Curls", preview: "https://vewapnew.online/storage/preview/AdYtaS4f73lyV9uajK3HubUV5wdoDDzy4gWQ0abD.mp4?t=1738906171", previewSmall: "SheepCurls"),
+        Effect(id: 24, ai: "pv", effect: "Hair Growth Magic", preview: "https://vewapnew.online/storage/preview/LS98dH8wJ8wZA0eoxIXzDPZrOZl0g08YA6jEroyK.mp4?t=1738906171", previewSmall: "HairGrowthMagic"),
+        Effect(id: 52, ai: "pv", effect: "Wizard Hat", preview: "https://vewapnew.online/storage/preview/rWY5OnsMzGyU3GV4HClILxbRh3ucdnuveDP6VRU5.mp4?t=1738906171", previewSmall: "WizardHat")
+        
+    ]
     private lazy var selectedType: typeArr = .pika
     private let buttonPika = UIButton(type: .system)
     private let pixVerseButton = UIButton(type: .system)
@@ -90,7 +99,7 @@ class EffectsViewController: UIViewController {
             await Task.sleep(500_000_000)
         }
         searchBar.isUserInteractionEnabled = true
-        sortedArr = model.returnArr(type: selectedType)
+        //sortedArr = model.returnArr(type: selectedType)
         collectionView.reloadData()
     }
     
@@ -208,7 +217,7 @@ class EffectsViewController: UIViewController {
     
     func likeTapped(id: Int) {
         if let item = model.arr.first(where: {$0.id == id}) {
-            openPreview(item: item)
+            //openPreview(item: item)
         }
     }
     
@@ -235,13 +244,13 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
         case 0:
             return sortedArr.count //1
         case 1:
-            return model.favoriteArrID.count > 0 ?  model.favoriteArrID.count : 1
+            return 0//model.favoriteArrID.count > 0 ?  model.favoriteArrID.count : 1
         case 2:
-            return 1
+            return 0//1
         case 3:
-            return 1 //sortedArr.count
+            return 0//1 //sortedArr.count
         default:
-            return 1
+            return 0//1
         }
     }
     
@@ -320,82 +329,82 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
                 make.top.equalTo(nameLabel.snp.bottom).inset(-8)
             }
             
-            if let url: URL = URL(string: item.previewSmall ?? "") {
+            if let url = Bundle.main.url(forResource: item.previewSmall ?? "", withExtension: "mp4") {
                 player.play(for: url)
                 player.isMuted = true
             }
             
         
             
-        case 1: //remove
-            
-           
-            
-            cell.backgroundColor = .bgLight
-            cell.layer.cornerRadius = 10
-            
-            if model.favoriteArrID.count > 0 {
-                let load = UIActivityIndicatorView(style: .large)
-                load.color = .white
-                cell.addSubview(load)
-                load.snp.makeConstraints { make in
-                    make.center.equalToSuperview()
-                }
-                load.startAnimating()
-                
-                
-                
-                
-                let player = VideoPlayerView()
-                player.backgroundColor = .bgLight
-                player.layer.cornerRadius = 16
-                player.clipsToBounds = true
-                player.playerLayer.videoGravity = .resizeAspectFill
-                cell.addSubview(player)
-                player.snp.makeConstraints { make in
-                    make.edges.equalToSuperview()
-                }
-                
-                let smallShaow = UIImageView(image: .smallShadow)
-                cell.addSubview(smallShaow)
-                smallShaow.snp.makeConstraints { make in
-                    make.left.right.equalToSuperview().inset(-5)
-                    make.bottom.equalToSuperview()
-                    make.height.equalTo(50)
-                }
-                
-                let label = UILabel()
-                label.font = .systemFont(ofSize: 17, weight: .regular)
-                label.textColor = .white
-                label.textAlignment = .center
-                label.numberOfLines = 2
-                cell.addSubview(label)
-                label.snp.makeConstraints { make in
-                    make.centerX.equalToSuperview()
-                    make.bottom.equalToSuperview().inset(5)
-                    make.left.right.equalToSuperview().inset(3)
-                }
-                
-                if let itemIRL = model.arr.first(where: {$0.id == model.favoriteArrID[indexPath.row]}) {
-                    if let url: URL = URL(string: itemIRL.previewSmall ?? "") {
-                        player.play(for: url)
-                        player.isMuted = true
-                    }
-                    label.text = itemIRL.effect
-                }
-            } else {
-                let label = UILabel()
-                label.text = "Add effect to favorites!"
-                label.textAlignment = .center
-                label.numberOfLines = 0
-                label.textColor = .white
-                label.font = .systemFont(ofSize: 17, weight: .regular)
-                cell.addSubview(label)
-                label.snp.makeConstraints { make in
-                    make.left.right.equalToSuperview().inset(10)
-                    make.centerY.equalToSuperview()
-                }
-            }
+//        case 1: //remove
+//            
+//           
+//            
+//            cell.backgroundColor = .bgLight
+//            cell.layer.cornerRadius = 10
+//            
+//            if model.favoriteArrID.count > 0 {
+//                let load = UIActivityIndicatorView(style: .large)
+//                load.color = .white
+//                cell.addSubview(load)
+//                load.snp.makeConstraints { make in
+//                    make.center.equalToSuperview()
+//                }
+//                load.startAnimating()
+//                
+//                
+//                
+//                
+//                let player = VideoPlayerView()
+//                player.backgroundColor = .bgLight
+//                player.layer.cornerRadius = 16
+//                player.clipsToBounds = true
+//                player.playerLayer.videoGravity = .resizeAspectFill
+//                cell.addSubview(player)
+//                player.snp.makeConstraints { make in
+//                    make.edges.equalToSuperview()
+//                }
+//                
+//                let smallShaow = UIImageView(image: .smallShadow)
+//                cell.addSubview(smallShaow)
+//                smallShaow.snp.makeConstraints { make in
+//                    make.left.right.equalToSuperview().inset(-5)
+//                    make.bottom.equalToSuperview()
+//                    make.height.equalTo(50)
+//                }
+//                
+//                let label = UILabel()
+//                label.font = .systemFont(ofSize: 17, weight: .regular)
+//                label.textColor = .white
+//                label.textAlignment = .center
+//                label.numberOfLines = 2
+//                cell.addSubview(label)
+//                label.snp.makeConstraints { make in
+//                    make.centerX.equalToSuperview()
+//                    make.bottom.equalToSuperview().inset(5)
+//                    make.left.right.equalToSuperview().inset(3)
+//                }
+//                
+//                if let itemIRL = model.arr.first(where: {$0.id == model.favoriteArrID[indexPath.row]}) {
+//                    if let url: URL = URL(string: itemIRL.previewSmall ?? "") {
+//                        player.play(for: url)
+//                        player.isMuted = true
+//                    }
+//                    label.text = itemIRL.effect
+//                }
+//            } else {
+//                let label = UILabel()
+//                label.text = "Add effect to favorites!"
+//                label.textAlignment = .center
+//                label.numberOfLines = 0
+//                label.textColor = .white
+//                label.font = .systemFont(ofSize: 17, weight: .regular)
+//                cell.addSubview(label)
+//                label.snp.makeConstraints { make in
+//                    make.left.right.equalToSuperview().inset(10)
+//                    make.centerY.equalToSuperview()
+//                }
+//            }
             
            
             
@@ -445,11 +454,9 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
         if indexPath.section == 1 && model.favoriteArrID.count > 0 {
-            likeTapped(id: model.favoriteArrID[indexPath.row])
+            //likeTapped(id: model.favoriteArrID[indexPath.row])
         }
     }
-    
-    
 }
 
 

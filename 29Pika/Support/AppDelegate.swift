@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  29Pika
-//
-//  Created by Владимир Кацап on 12.12.2024.
-//
-
 import UIKit
 import ApphudSDK
 import AppTrackingTransparency
@@ -14,8 +7,6 @@ var userID = ""
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Apphud.start(apiKey: "app_hEmr32ddRfrjXznMZ3WW2f96jBKCxc")

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import StoreKit
 
 class OnboardingViewController: UIViewController {
     
@@ -101,15 +102,18 @@ class OnboardingViewController: UIViewController {
     }
     
     @objc private func rate() {
-        guard let url = URL(string: "itms-apps://itunes.apple.com/app/id6739883934?action=write-review") else { //как пример - 6737510164
-            return
-        }
-        
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            print("Unable to open App Store")
-        }
+//        guard let url = URL(string: "itms-apps://itunes.apple.com/app/id6739883934?action=write-review") else { //как пример - 6737510164
+//            return
+//        }
+//        
+//        if UIApplication.shared.canOpenURL(url) {
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        } else {
+//            print("Unable to open App Store")
+//        }
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                            SKStoreReviewController.requestReview(in: scene)
+                        }
     }
 
 }

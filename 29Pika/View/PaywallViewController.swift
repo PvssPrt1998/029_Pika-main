@@ -327,7 +327,6 @@ class PaywallViewController: UIViewController {
     private func fireEmojiBeforePrice(nameLabel: String) -> String {
         return nameLabel == "Yearly" ? "🔥 " : ""
     }
-    
 }
 
 extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -417,9 +416,12 @@ extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataS
             countLabel.textColor = .white.withAlphaComponent(0.6)
             countLabel.font = .appFont(.Caption1Regular)
         } else {
+            countLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+            countLabel.font = .appFont(.SubheadlineRegular)
             countLabel.snp.makeConstraints { make in
                 make.right.equalToSuperview().inset(15)
                 make.centerY.equalToSuperview()
+                
             }
         }
         
