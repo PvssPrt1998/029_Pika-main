@@ -1,10 +1,3 @@
-//
-//  SettingsViewController.swift
-//  29Pika
-//
-//  Created by Владимир Кацап on 25.12.2024.
-//
-
 import UIKit
 import Combine
 import StoreKit
@@ -13,7 +6,7 @@ class SettingsViewController: UIViewController {
     
     let model: MainModel
     private lazy var cancellable = [AnyCancellable]()
-    private let settingsArr: [settings] = [settings(image: .contact, text: "Contact us"), settings(image: .share, text: "Share the app"), settings(image: .rate, text: "Rate the app"), settings(image: .usage, text: "Usage policy"), settings(image: .privacy, text: "Privacy policy")]
+    private let settingsArr: [settings] = [settings(image: UIImage(systemName: "star.circle.fill")!, text: "Tokens to generate"), settings(image: .contact, text: "Contact us"), settings(image: .share, text: "Share the app"), settings(image: .rate, text: "Rate the app"), settings(image: .usage, text: "Usage policy"), settings(image: .privacy, text: "Privacy policy"), settings(image: UIImage(systemName: "trash.fill")!, text: "Clear cache")]
     
     private lazy var bgImage = UIImage.noPro
     private lazy var buttonImageView: UIImageView = {
@@ -43,6 +36,9 @@ class SettingsViewController: UIViewController {
     
     init(model: MainModel) {
         self.model = model
+        model.purchaseManager.loadPaywalls1 {
+            
+        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -85,30 +81,40 @@ class SettingsViewController: UIViewController {
     
     private func setupUI() {
         
-        view.addSubview(buttonImageView)
-        buttonImageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(15)
-            make.left.right.equalToSuperview().inset(15)
-            make.height.equalTo(120)
-        }
+//        view.addSubview(buttonImageView)
+//        buttonImageView.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(15)
+//            make.left.right.equalToSuperview().inset(15)
+//            make.height.equalTo(120)
+//        }
         
-        view.addSubview(subButton)
-        subButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(15)
-            make.left.right.equalToSuperview().inset(15)
-            make.height.equalTo(120)
-        }
-        
+        //view.addSubview(subButton)
+//        subButton.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(15)
+//            make.left.right.equalToSuperview().inset(15)
+//            make.height.equalTo(120)
+//        }
+//        
         view.addSubview(collection)
         collection.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(15)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.top.equalTo(subButton.snp.bottom)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(15)
         }
     }
     
     @objc func openPaywall() {
         let paywallViewController = PaywallViewController(model: model)
+        paywallViewController.modalPresentationStyle = .fullScreen
+        paywallViewController.modalTransitionStyle = .coverVertical
+        if #available(iOS 13.0, *) {
+            paywallViewController.isModalInPresentation = true
+        }
+        self.present(paywallViewController, animated: true)
+    }
+    
+    @objc func tokenAction() {
+        let paywallViewController = TokensPaywallViewController(model: model)
         paywallViewController.modalPresentationStyle = .fullScreen
         paywallViewController.modalTransitionStyle = .coverVertical
         if #available(iOS 13.0, *) {
@@ -141,11 +147,11 @@ class SettingsViewController: UIViewController {
             dateLabel.font = .appFont(.BodyRegular)
             let text = model.purchaseManager.dateSubscribe()
             dateLabel.text = text
-            subButton.addSubview(dateLabel)
-            dateLabel.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(subButton.snp.centerY).offset(5)
-            }
+//            subButton.addSubview(dateLabel)
+//            dateLabel.snp.makeConstraints { make in
+//                make.centerX.equalToSuperview()
+//                make.top.equalTo(subButton.snp.centerY).offset(5)
+//            }
             
         } else {
             bgImage = .noPro
@@ -163,17 +169,17 @@ class SettingsViewController: UIViewController {
             let proButton = UIButton(type: .system)
             proButton.setBackgroundImage(.proButton, for: .normal)
             proButton.isUserInteractionEnabled = false
-            subButton.addSubview(proButton)
-            proButton.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(subButton.snp.centerY).offset(5)
-                make.height.equalTo(38)
-                make.width.equalTo(98)
-            }
+//            subButton.addSubview(proButton)
+//            proButton.snp.makeConstraints { make in
+//                make.centerX.equalToSuperview()
+//                make.top.equalTo(subButton.snp.centerY).offset(5)
+//                make.height.equalTo(38)
+//                make.width.equalTo(98)
+//            }
         }
         buttonImageView.image = bgImage
-        subButton.setNeedsLayout()
-        subButton.layoutIfNeeded()
+//        subButton.setNeedsLayout()
+//        subButton.layoutIfNeeded()
     }
     
     struct settings {
@@ -220,7 +226,6 @@ class SettingsViewController: UIViewController {
         webVC.urlString = "https://docs.google.com/document/d/1Bzr1G22pUKtzDY6VxoiaMAHtEqgTSpYbuXhtMZ4I-Cw/edit?usp=sharing"
         present(webVC, animated: true, completion: nil)
     }
-    
 }
 
 extension SettingsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -230,6 +235,7 @@ extension SettingsViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "1", for: indexPath)
+        
         cell.subviews.forEach { $0.removeFromSuperview() }
         cell.backgroundColor = .bgLight
         cell.layer.cornerRadius = 10
@@ -237,7 +243,20 @@ extension SettingsViewController: UICollectionViewDelegate, UICollectionViewData
         
         let item = settingsArr[indexPath.row]
         
+        if indexPath.row == 0 {
+            let tokenLabel = UILabel()
+            tokenLabel.text = "\(model.tokens * 10)"
+            tokenLabel.textColor = .white
+            tokenLabel.font = .appFont(.BodyRegular)
+            cell.addSubview(tokenLabel)
+            tokenLabel.snp.makeConstraints { make in
+                make.centerY.equalToSuperview()
+                make.right.equalToSuperview().inset(20)
+            }
+        }
+        
         let imageView = UIImageView(image: item.image)
+        imageView.tintColor = .white
         cell.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.height.width.equalTo(20)
@@ -255,9 +274,10 @@ extension SettingsViewController: UICollectionViewDelegate, UICollectionViewData
             make.left.equalTo(imageView.snp.right).inset(-10)
         }
         
-        
         return cell
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 54)
@@ -266,15 +286,18 @@ extension SettingsViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            contactUs()
+            tokenAction()
         case 1:
-            shareFriends()
+            contactUs()
         case 2:
-            rateApp()
+            shareFriends()
         case 3:
-            usage()
+            rateApp()
         case 4:
+            usage()
+        case 5:
             privacy()
+        case 6: {try? model.coredataManager.clearCache()}()
         default:
             print(indexPath.row)
         }

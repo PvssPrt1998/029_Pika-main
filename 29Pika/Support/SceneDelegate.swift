@@ -17,13 +17,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         if UserDefaults.standard.object(forKey: "onb") == nil {
+            
             window.rootViewController = UINavigationController(rootViewController: OnboardingViewController(model: model))
         } else {
+            DispatchQueue.main.async {
+                self.model.load()
+            }
             window.rootViewController = UINavigationController(rootViewController: TabBarViewController(model: model))
         }
         self.window = window
         self.window?.makeKeyAndVisible()
-
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

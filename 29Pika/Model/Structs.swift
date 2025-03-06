@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct SortedEffects: Codable {
+    let header: String
+    var items: [Effect]
+}
+
 struct DataEffect: Codable {
     let error: Bool
     let messages: [String]
@@ -19,8 +24,19 @@ struct Effect: Codable {
     var effect: String
     var preview: String?
     var previewSmall: String?
+    var localUrl: String?
 }
 
+// MARK: - UserInfo
+struct UserInfo: Codable {
+    let error: Bool
+    let data: DataClass
+}
+
+// MARK: - DataClass
+struct DataClass: Codable {
+    let availableGenerations: Int
+}
 
 //MARK: -generate
 

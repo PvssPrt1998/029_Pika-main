@@ -3,36 +3,22 @@ import SystemConfiguration
 import GSPlayer
 import Combine
 
-class EffectsViewController: UIViewController {
+class CategoryPreviewViewController: UIViewController {
     
     let model: MainModel
     private lazy var cancellable = [AnyCancellable]()
     private let facoritePublisher = PassthroughSubject<Any,Never>()
     private let genTappedPublisher = PassthroughSubject<Effect,Never>()
     
-    private lazy var sortedArr: [Effect] = [
-//        Effect(id: 1, ai: "pv", effect: "Levitate it", preview: "https://vewapnew.online/storage/preview/9JX57sakrQniJBdcFfyBWDXmDfIQj3UfmlDJkpax.mp4?t=1738906171", previewSmall: "LevitateIt"),
-//        Effect(id: 4, ai: "pv", effect: "Inflate it", preview: "https://vewapnew.online/storage/preview/iDNDGK5y9zMMatybYoK9tCZnywS8MU8IWWJFaV8Z.mp4?t=1738906171", previewSmall: "InflateIt"),
-//        Effect(id: 5, ai: "pv", effect: "Melt it", preview: "https://vewapnew.online/storage/preview/ssPRdA5xjg8EajVxgRgC7bZxTq65jqsYs4bMcTON.mp4?t=1738906171", previewSmall: "MeltIt"),
-//        Effect(id: 10, ai: "pv", effect: "Ta-da it", preview: "https://vewapnew.online/storage/preview/6oDcfuMjn9T2wwWniSvB3cEvPTNXXxmXLFd3yybj.mp4?t=1738906171", previewSmall: "TaDaIt"),
-//        Effect(id: 13, ai: "pv", effect: "Dissolve it", preview: "https://vewapnew.online/storage/preview/zQWrJEFKvsfHFsClgR5yzW3yHCVXLlmQWM6rGdz7.mp4?t=1738906171", previewSmall: "DissolveIt"),
-//        Effect(id: 54, ai: "pv", effect: "Peel it", preview: "https://vewapnew.online/storage/preview/oEZtP4cU5TV3OLMfqonk2zcHsviwv1FpD9bHKbIq.mp4?t=1738906171", previewSmall: "PeelIt"),
-//        Effect(id: 56, ai: "pv", effect: "Tear it", preview: "https://vewapnew.online/storage/preview/EWQXghnpVLCGdOJXPfK2miVaLCDbFrcpJLrV7srv.mp4?t=1738906171", previewSmall: "TearIt"),
-//        Effect(id: 2, ai: "pv", effect: "Decapitate it", preview: "https://vewapnew.online/storage/preview/QolvHeHOCxB3naJbijWEDUJmNPrifsUlVqNvGLxv.mp4?t=1738906171", previewSmall: "DecapitateIt"),
-//        Effect(id: 3, ai: "pv", effect: "Eye-pop it", preview: "https://vewapnew.online/storage/preview/vWy7H3nQovCQPfVMsN00SaZzDJjZDNqGUJgyiqTA.mp4?t=1738906171", previewSmall: "EyePopIt"),
-//        Effect(id: 55, ai: "pv", effect: "Poke it", preview: "https://vewapnew.online/storage/preview/Rk5i55bQqimTh0YaFeeLAVTpI0nhA3J64U3QjrgE.mp4?t=1738906171", previewSmall: "PokeIt"),
-//        Effect(id: 6, ai: "pika", effect: "Explode it", preview: "https://vewapnew.online/storage/preview/lQNR8fvmKDD3p36lb6dDsj4RNXiPVPKCwC4u5B9e.mp4?t=1737103978", previewSmall: "ExplodeIt"),
-//        Effect(id: 57, ai: "pv", effect: "Sheep Curls", preview: "https://vewapnew.online/storage/preview/AdYtaS4f73lyV9uajK3HubUV5wdoDDzy4gWQ0abD.mp4?t=1738906171", previewSmall: "SheepCurls"),
-//        Effect(id: 24, ai: "pv", effect: "Hair Growth Magic", preview: "https://vewapnew.online/storage/preview/LS98dH8wJ8wZA0eoxIXzDPZrOZl0g08YA6jEroyK.mp4?t=1738906171", previewSmall: "HairGrowthMagic"),
-//        Effect(id: 52, ai: "pv", effect: "Wizard Hat", preview: "https://vewapnew.online/storage/preview/rWY5OnsMzGyU3GV4HClILxbRh3ucdnuveDP6VRU5.mp4?t=1738906171", previewSmall: "WizardHat")
-    ]
+    private var sortedArr: SortedEffects
     
     private lazy var selectedType: typeArr = .pika
     private let buttonPika = UIButton(type: .system)
     private let pixVerseButton = UIButton(type: .system)
     
-    init(model: MainModel) {
+    init(model: MainModel, category: SortedEffects) {
         self.model = model
+        sortedArr = category
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -74,7 +60,6 @@ class EffectsViewController: UIViewController {
         setupUI()
         subscribeFavrite()
         someMethod()
-        subscribe()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -103,13 +88,11 @@ class EffectsViewController: UIViewController {
     }
     
     private func loadData() async {
-        while model.arr.count < 1 {
+        while model.arr1.count < 1 {
             await Task.sleep(500_000_000)
         }
         searchBar.isUserInteractionEnabled = true
-        model.arr.forEach { category in
-            sortedArr.append(contentsOf: category.items)
-        }
+        //sortedArr = model.returnArr(type: selectedType)
         collectionView.reloadData()
     }
     
@@ -120,8 +103,9 @@ class EffectsViewController: UIViewController {
     
     
     private func setupNav() {
+        title = sortedArr.header
         let longTitleLabel = UILabel()
-        longTitleLabel.text = "Pika AI"
+        longTitleLabel.text = sortedArr.header
         longTitleLabel.font = .systemFont(ofSize: 22, weight: .bold)
         longTitleLabel.textColor = .white
         longTitleLabel.sizeToFit()
@@ -190,8 +174,8 @@ class EffectsViewController: UIViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)//NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item], count)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         
         return section
     }
@@ -230,7 +214,22 @@ class EffectsViewController: UIViewController {
         }
     }
     
+    @objc private func myButton(sender: CategoryPreviewButton) {
+        guard model.connectionAvailable else { return }
+        guard isInternetAvailable() else { return }
+        if let item = sender.effect {
+            print(item)
+            //openPreview(item: item)
+            //let vc = LoadImaeViewController(effect: index, model: model)
+            let vc = PreviewV2ViewController(model: model, effect: item)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     func likeTapped(id: Int) {
+        if let item = model.arr1.first(where: {$0.id == id}) {
+            //openPreview(item: item)
+        }
     }
     
     private func openPreview(item: Effect) {
@@ -245,25 +244,13 @@ class EffectsViewController: UIViewController {
     
 }
 
-extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CategoryPreviewViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1 // Горизонтальная, статическое вью, вертикальные ячейки
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        switch section {
-        case 0:
-            return sortedArr.count //1
-        case 1:
-            return 0//model.favoriteArrID.count > 0 ?  model.favoriteArrID.count : 1
-        case 2:
-            return 0//1
-        case 3:
-            return 0//1 //sortedArr.count
-        default:
-            return 0//1
-        }
+        return sortedArr.items.count //1
     }
     
     func checkInternetAvailable() {
@@ -298,19 +285,6 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
         return (isReachable && !needsConnection)
     }
     
-    private func subscribe() {
-        model.arrChangedPublisher
-            .sink { _ in
-                var array: [Effect] = []
-                self.model.arr.forEach { category in
-                    array.append(contentsOf: category.items)
-                }
-                self.sortedArr = array
-            }
-            .store(in: &cancellable)
-    }
-    
-    
     private func noConnectionAlert() {
         let alert = UIAlertController(title: "Error", message: "No internet connection", preferredStyle: .alert)
         
@@ -340,27 +314,54 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
                 make.centerY.equalToSuperview()
             }
         case 0: //ex3
-            let item = sortedArr[indexPath.row]
+            let item = sortedArr.items[indexPath.row]
             let nameLabel = UILabel()
             nameLabel.text = item.effect
             nameLabel.textColor = .white
             nameLabel.font = .appFont(.Title2Regular)
             cell.addSubview(nameLabel)
             nameLabel.snp.makeConstraints { make in
-                make.left.equalToSuperview().inset(15)
+                make.left.equalToSuperview().inset(4)
                 make.top.equalToSuperview()//.inset(15)
             }
             
+//            let tryButton = UIButton(type: .system)
+//            tryButton.tag = item.id
+//            tryButton.setBackgroundImage(.tryItButton, for: .normal)
+//            cell.addSubview(tryButton)
+//            tryButton.snp.makeConstraints { make in
+//                make.right.equalToSuperview().inset(15)
+//                make.height.equalTo(24)
+//                make.width.equalTo(63)
+//                make.top.equalToSuperview().inset(15)
+//            }
+//            tryButton.addTarget(self, action: #selector(tryTapped(sender:)), for: .touchUpInside)
+            
             let bgView = UIView()
-            bgView.backgroundColor = .bgLight
+            bgView.backgroundColor = .clear
             bgView.layer.cornerRadius = 8
             bgView.clipsToBounds = true
             cell.addSubview(bgView)
             bgView.snp.makeConstraints { make in
-                make.left.right.equalToSuperview().inset(15)
-                make.bottom.equalToSuperview()
-                make.top.equalTo(nameLabel.snp.bottom).inset(-8)
+                make.left.equalToSuperview().inset(4)
+                make.right.equalToSuperview().inset(4)
+                make.top.bottom.equalToSuperview().inset(-15)
             }
+            
+//            let tryButton = CategoryPreviewButton()
+//            tryButton.tag = item.id
+//            tryButton.setBackgroundImage(.tryItButton, for: .normal)
+//            cell.addSubview(tryButton)
+//            tryButton.snp.makeConstraints { make in
+////                make.right.equalToSuperview().inset(15)
+////                make.top.equalToSuperview().inset(15)
+//                make.right.equalToSuperview().inset(15)
+//                make.top.equalToSuperview()//.inset(15)
+//                make.height.equalTo(24)
+//                make.width.equalTo(63)
+//            }
+//            tryButton.effect = item
+//            tryButton.addTarget(self, action: #selector(myButton(sender:)), for: .touchUpInside)
             
             let load = UIActivityIndicatorView(style: .large)
             load.color = .white
@@ -380,30 +381,28 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
             player.addGestureRecognizer(tap)
             cell.addSubview(player)
             player.snp.makeConstraints { make in
-                make.left.right.equalToSuperview().inset(15)
+                make.left.equalToSuperview().inset(4)
+                make.right.equalToSuperview().inset(4)
                 make.bottom.equalToSuperview()
                 make.top.equalTo(nameLabel.snp.bottom).inset(-8)
-            }
-            
-            if let urlStr = item.previewSmall, let url = URL(string: urlStr) {
-                player.play(for: url)
-                player.isMuted = true
             }
             
 //            if let url = Bundle.main.url(forResource: item.previewSmall ?? "", withExtension: "mp4") {
 //                player.play(for: url)
 //                player.isMuted = true
 //            }
-            
-        
+            if let urlStr = item.previewSmall, let url = URL(string: urlStr) {
+                player.play(for: url)
+                player.isMuted = true
+            }
             
 //        case 1: //remove
-//            
-//           
-//            
+//
+//
+//
 //            cell.backgroundColor = .bgLight
 //            cell.layer.cornerRadius = 10
-//            
+//
 //            if model.favoriteArrID.count > 0 {
 //                let load = UIActivityIndicatorView(style: .large)
 //                load.color = .white
@@ -412,10 +411,10 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
 //                    make.center.equalToSuperview()
 //                }
 //                load.startAnimating()
-//                
-//                
-//                
-//                
+//
+//
+//
+//
 //                let player = VideoPlayerView()
 //                player.backgroundColor = .bgLight
 //                player.layer.cornerRadius = 16
@@ -425,7 +424,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
 //                player.snp.makeConstraints { make in
 //                    make.edges.equalToSuperview()
 //                }
-//                
+//
 //                let smallShaow = UIImageView(image: .smallShadow)
 //                cell.addSubview(smallShaow)
 //                smallShaow.snp.makeConstraints { make in
@@ -433,7 +432,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
 //                    make.bottom.equalToSuperview()
 //                    make.height.equalTo(50)
 //                }
-//                
+//
 //                let label = UILabel()
 //                label.font = .systemFont(ofSize: 17, weight: .regular)
 //                label.textColor = .white
@@ -445,7 +444,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
 //                    make.bottom.equalToSuperview().inset(5)
 //                    make.left.right.equalToSuperview().inset(3)
 //                }
-//                
+//
 //                if let itemIRL = model.arr.first(where: {$0.id == model.favoriteArrID[indexPath.row]}) {
 //                    if let url: URL = URL(string: itemIRL.previewSmall ?? "") {
 //                        player.play(for: url)
@@ -521,7 +520,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 
-extension EffectsViewController: UISearchBarDelegate {
+extension CategoryPreviewViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         UIView.animate(withDuration: 0.3) {
@@ -561,6 +560,6 @@ extension EffectsViewController: UISearchBarDelegate {
     }
 }
 
-class MyTapGesture: UITapGestureRecognizer {
+class CategoryPreviewButton: UIButton {
     var effect: Effect?
 }

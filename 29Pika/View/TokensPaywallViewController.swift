@@ -1,15 +1,8 @@
-//
-//  PaywallViewController.swift
-//  29Pika
-//
-//  Created by Владимир Кацап on 16.12.2024.
-//
-
 import UIKit
 import WebKit
 import ApphudSDK
 
-class PaywallViewController: UIViewController {
+class TokensPaywallViewController: UIViewController {
     
     let model: MainModel
     private lazy var selectedProductIndex = 0
@@ -52,9 +45,10 @@ class PaywallViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = .clear
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "1")
-        layout.minimumLineSpacing = 5
+        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "12")
+        layout.minimumLineSpacing = 8
         layout.scrollDirection = .vertical
+        
         return collection
     }()
     
@@ -72,10 +66,18 @@ class PaywallViewController: UIViewController {
     }()
     
     private lazy var stackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [createMiniView(text: "Unlimited Video Generations"), createMiniView(text: "Ad-Free Experience"), createMiniView(text: "High-Quality Video Output"), createMiniView(text: "Access to All Effects")])
+        let view = UIStackView(arrangedSubviews: [createMiniView(text: "Top up your balance and keep creating!")])
         view.axis = .vertical
         view.distribution = .fillEqually
         return view
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Top up your balance and keep creating!"
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .white.withAlphaComponent(0.8)
+        return label
     }()
     
     private let pvImageView: UIImageView = {
@@ -88,13 +90,16 @@ class PaywallViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .bgPaywall
+        collection.delegate = self
+        collection.dataSource = self
         setupUI()
         loadProducts()
     }
     
     private func loadProducts() {
-        model.purchaseManager.loadPaywalls {
+        model.purchaseManager.loadPaywalls1 {
             self.productsDownoaded()
+            self.collection.reloadData()
             print("Downloaded")
         }
     }
@@ -104,7 +109,7 @@ class PaywallViewController: UIViewController {
             self.collection.snp.remakeConstraints { make in
                 make.left.right.equalToSuperview().inset(15)
                 make.bottom.equalTo(self.nextButton.snp.top).inset(-15)
-                make.height.equalTo(self.model.purchaseManager.productsApphud.count * 69)
+                make.height.equalTo(2 * 69 + 2 * 8) //self.model.purchaseManager.productsApphud1.count
             }
             self.collection.reloadData()
             self.miniIndicator.stopAnimating()
@@ -113,8 +118,21 @@ class PaywallViewController: UIViewController {
         }
     }
     
+    func tokensForSelected() -> Int {
+        switch selectedProductIndex {
+        case 0: 10
+        case 1: 25
+        case 2: 50
+        case 3: 100
+        case 4: 200
+        default: 10
+        }
+    }
+    
 
     private func setupUI() {
+        
+        
         let policyButton = createMiniButtons(title: "Privacy Policy", font: .appFont(.Caption2Regular), color: .white.withAlphaComponent(0.3))
         policyButton.addTarget(self, action: #selector(openPolicy), for: .touchUpInside)
         view.addSubview(policyButton)
@@ -154,25 +172,25 @@ class PaywallViewController: UIViewController {
         collection.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(15)
             make.bottom.equalTo(nextButton.snp.top).inset(-15)
-            make.height.equalTo(136)
+            //make.height.equalTo(300)
+            make.height.equalTo(2 * 69 + 2 * 8) //self.model.purchaseManager.productsApphud1.count
         }
         
-        view.addSubview(miniIndicator)
-        miniIndicator.snp.makeConstraints { make in
-            make.center.equalTo(collection)
-        }
-        miniIndicator.startAnimating()
+//        view.addSubview(miniIndicator)
+//        miniIndicator.snp.makeConstraints { make in
+//            make.center.equalTo(collection)
+//        }
+//        miniIndicator.startAnimating()
         
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.width.equalTo(243)
-            make.height.equalTo(136)
+        view.addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(collection.snp.top).inset(-15)
+            make.bottom.equalTo(collection.snp.top).inset(-16)
+            make.height.equalTo(22)
         }
         
         let topLabel = UILabel()
-        topLabel.text = "Unlock Pika Premium"
+        topLabel.text = "Out of tokens?"
         topLabel.textColor = .white
         topLabel.numberOfLines = 1
         topLabel.textAlignment = .center
@@ -180,12 +198,14 @@ class PaywallViewController: UIViewController {
         view.addSubview(topLabel)
         topLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(stackView.snp.top).inset(-15)
+            make.bottom.equalTo(descriptionLabel.snp.top).inset(-15)
+            make.height.equalTo(42)
         }
         
         view.addSubview(pvImageView)
         pvImageView.snp.makeConstraints { make in
             make.left.right.top.equalToSuperview()
+            //make.height.equalTo(340)
             make.bottom.equalTo(topLabel.snp.top).inset(-5)
         }
         
@@ -220,23 +240,14 @@ class PaywallViewController: UIViewController {
     
     private func createMiniView(text: String) -> UIView {
         let view = UIView()
-        
-        let imageView = UIImageView(image: .galc)
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.height.width.equalTo(16)
-            make.left.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-        
         let label = UILabel()
         label.text = text
-        label.textColor = .white
-        label.font = .appFont(.BodyRegular)
+        label.textColor = .white.withAlphaComponent(0.8)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         view.addSubview(label)
         label.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalTo(imageView.snp.right).inset(-5)
+            make.centerX.equalToSuperview()
         }
         
         return view
@@ -293,6 +304,32 @@ class PaywallViewController: UIViewController {
         }
     }
     
+    private func getTokensAmount(for product: ApphudProduct) -> String {
+        print("Token")
+        print(getSubscriptionPrice(for: product))
+        if doubleInAround(9.99, value1: getSubscriptionPrice(for: product)) {
+            print("Token")
+            print(getSubscriptionPrice(for: product))
+            return "100"
+        }
+        if doubleInAround(5.99, value1: getSubscriptionPrice(for: product)) {
+            return "100"
+        }
+        if doubleInAround(19.99, value1: getSubscriptionPrice(for: product)) {
+            return "250"
+        }
+        if doubleInAround(34.99, value1: getSubscriptionPrice(for: product)) {
+            return "500"
+        }
+        if doubleInAround(99.99, value1: getSubscriptionPrice(for: product)) {
+            return "2000"
+        }
+        if doubleInAround(59.99, value1: getSubscriptionPrice(for: product)) {
+            return "1000"
+        }
+        return "Error"
+    }
+    
     private func getSubscriptionSymbol(for product: ApphudProduct) -> String {
         return product.skProduct?.priceLocale.currencySymbol ?? "$"
     }
@@ -305,10 +342,26 @@ class PaywallViewController: UIViewController {
         }
     }
     
+    func doubleInAround(_ value: Double, value1: Double) -> Bool {
+        if value < value1 + 0.01 && value > value1 - 0.01 {
+            return true
+        } else { return false }
+    }
+    
     @objc private func subscribe() {
         bigActivityIndicator.startAnimating()
-        model.purchaseManager.startPurchase(produst: model.purchaseManager.productsApphud[selectedProductIndex]) { isSuccess in
-            self.model.purchasePublisher.send(1)
+        model.purchaseManager.startPurchase(produst: model.purchaseManager.productsApphud1[selectedProductIndex]) { isSuccess in
+            if isSuccess {
+                self.model.purchasePublisher.send(1)
+                self.model.netWorking.buyTokens(apphudId: userID, tokens: self.tokensForSelected()) { availableTokens in
+                    self.model.tokens += availableTokens
+                    self.dismiss(animated: true)
+                } errorHandler: {
+                    
+                }
+                
+            }
+            
             DispatchQueue.main.async {
                 self.showBuyAlert(isSuccess: isSuccess)
             }
@@ -324,107 +377,123 @@ class PaywallViewController: UIViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true)
     }
-    
-    private func fireEmojiBeforePrice(nameLabel: String) -> String {
-        return nameLabel == "Yearly" ? "🔥 " : ""
-    }
 }
 
-extension PaywallViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension TokensPaywallViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.purchaseManager.productsApphud.count
+        return model.purchaseManager.productsApphud1.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "1", for: indexPath)
+        print("CELL")
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "12", for: indexPath)
         cell.subviews.forEach { $0.removeFromSuperview() }
         cell.backgroundColor = .bgLight
         cell.layer.cornerRadius = 10
         cell.layer.borderWidth = selectedProductIndex == indexPath.row ? 2 : 0
         cell.layer.borderColor = selectedProductIndex == indexPath.row ? UIColor.secondary.cgColor : UIColor.clear.cgColor
         
-        let item = model.purchaseManager.productsApphud[indexPath.row]
-        
+        let item = model.purchaseManager.productsApphud1[indexPath.row]
+        let value = getTokensAmount(for: item)
         let nameLabel = UILabel()
-        nameLabel.text = getSubscriptionDuration(for: item)
+        nameLabel.text = value
         nameLabel.textColor = .white
         nameLabel.font = .appFont(.Title3Emphasized)
         cell.addSubview(nameLabel)
         
-        if nameLabel.text == "Yearly" {
-            nameLabel.snp.makeConstraints { make in
-                make.bottom.equalTo(cell.snp.centerY).offset(2)
-                make.left.equalToSuperview().inset(15)
-            }
-        } else {
-            nameLabel.snp.makeConstraints { make in
-                make.centerY.equalToSuperview()
-                make.left.equalToSuperview().inset(15)
-            }
+        nameLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(cell.snp.centerY)
+            make.left.equalToSuperview().inset(15)
+        }
+        
+        let tokensLabel = UILabel()
+        tokensLabel.text = "Tokens"
+        tokensLabel.textColor = .white.withAlphaComponent(0.6)
+        tokensLabel.font = .appFont(.BodyRegular)
+        cell.addSubview(tokensLabel)
+        tokensLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(nameLabel.snp.centerY)
+            make.left.equalTo(nameLabel.snp.right).inset(-8)
+        }
+        
+        let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
+        chevronImage.tintColor = .white.withAlphaComponent(0.6)
+        chevronImage.contentMode = .scaleToFill
+        cell.addSubview(chevronImage)
+        chevronImage.snp.makeConstraints { make in
+            make.width.equalTo(8)
+            make.height.equalTo(14)
+            make.right.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview()
         }
         
         let price: Double = getSubscriptionPrice(for: item)
         
         let countLabel = UILabel()
         countLabel.textColor = .white
-        countLabel.font = .appFont(.Title2Emphasized)
         countLabel.text = getSubscriptionSymbol(for: item) + "\(Double(String(format: "%.2f", price)) ?? 0.0)"
         cell.addSubview(countLabel)
-        
-        if nameLabel.text == "Yearly" {
-            
-            let weekLabel = UILabel()
-            weekLabel.text = "/per week 🔥"
-            weekLabel.textColor = .white
-            weekLabel.font = .appFont(.FootnoteRegular)
-            cell.addSubview(weekLabel)
-            weekLabel.snp.makeConstraints { make in
-                make.bottom.equalToSuperview().inset(9)
-                make.right.equalToSuperview().inset(15)
-            }
-            
- 
-            let salelabel = UILabel()
-            salelabel.textColor = .white
-            salelabel.font = .appFont(.FootnoteRegular)
-            salelabel.text = fireEmojiBeforePrice(nameLabel: nameLabel.text ?? "") + getSubscriptionSymbol(for: item) + "\(Double(String(format: "%.2f", price / 52)) ?? 0.0)"
-            cell.addSubview(salelabel)
-            salelabel.snp.makeConstraints { make in
-                make.right.equalTo(weekLabel.snp.left)
-                make.bottom.equalToSuperview().inset(9)
-            }
-            
-            let saleLabel = UILabel()
-            saleLabel.backgroundColor = UIColor.secondary
-            saleLabel.layer.cornerRadius = 5
-            saleLabel.clipsToBounds = true
-            saleLabel.text = "SAVE 84%"
-            saleLabel.textColor = .black
-            saleLabel.textAlignment = .center
-            saleLabel.font = .appFont(.Caption1Regular)
-            cell.addSubview(saleLabel)
-            saleLabel.snp.makeConstraints { make in
-                make.centerX.equalTo(weekLabel.snp.centerX)
-                make.height.equalTo(24)
-                make.width.equalTo(75)
-                make.bottom.equalTo(weekLabel.snp.top).inset(-4)
-            }
-            
-            countLabel.snp.makeConstraints { make in
-                make.left.equalToSuperview().inset(15)
-                make.top.equalTo(cell.snp.centerY).offset(2)
-            }
-            countLabel.textColor = .white.withAlphaComponent(0.6)
-            countLabel.font = .appFont(.Caption1Regular)
-        } else {
-            countLabel.textColor = UIColor.white.withAlphaComponent(0.6)
-            countLabel.font = .appFont(.SubheadlineRegular)
-            countLabel.snp.makeConstraints { make in
-                make.right.equalToSuperview().inset(15)
-                make.centerY.equalToSuperview()
-                
-            }
+        countLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+        countLabel.font = .appFont(.BodyRegular)
+        countLabel.snp.makeConstraints { make in
+            make.right.equalTo(chevronImage.snp.left).inset(-16)
+            make.centerY.equalToSuperview()
         }
+//
+//        if nameLabel.text == "Yearly" {
+//            
+//            let weekLabel = UILabel()
+//            weekLabel.text = "/per week 🔥"
+//            weekLabel.textColor = .white
+//            weekLabel.font = .appFont(.FootnoteRegular)
+//            cell.addSubview(weekLabel)
+//            weekLabel.snp.makeConstraints { make in
+//                make.bottom.equalToSuperview().inset(9)
+//                make.right.equalToSuperview().inset(15)
+//            }
+//            
+// 
+//            let salelabel = UILabel()
+//            salelabel.textColor = .white
+//            salelabel.font = .appFont(.FootnoteRegular)
+//            salelabel.text = fireEmojiBeforePrice(nameLabel: nameLabel.text ?? "") + getSubscriptionSymbol(for: item) + "\(Double(String(format: "%.2f", price / 52)) ?? 0.0)"
+//            cell.addSubview(salelabel)
+//            salelabel.snp.makeConstraints { make in
+//                make.right.equalTo(weekLabel.snp.left)
+//                make.bottom.equalToSuperview().inset(9)
+//            }
+//            
+//            let saleLabel = UILabel()
+//            saleLabel.backgroundColor = UIColor.secondary
+//            saleLabel.layer.cornerRadius = 5
+//            saleLabel.clipsToBounds = true
+//            saleLabel.text = "SAVE 84%"
+//            saleLabel.textColor = .black
+//            saleLabel.textAlignment = .center
+//            saleLabel.font = .appFont(.Caption1Regular)
+//            cell.addSubview(saleLabel)
+//            saleLabel.snp.makeConstraints { make in
+//                make.centerX.equalTo(weekLabel.snp.centerX)
+//                make.height.equalTo(24)
+//                make.width.equalTo(75)
+//                make.bottom.equalTo(weekLabel.snp.top).inset(-4)
+//            }
+//            
+//            countLabel.snp.makeConstraints { make in
+//                make.left.equalToSuperview().inset(15)
+//                make.top.equalTo(cell.snp.centerY).offset(2)
+//            }
+//            countLabel.textColor = .white.withAlphaComponent(0.6)
+//            countLabel.font = .appFont(.Caption1Regular)
+//        } else {
+//            countLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+//            countLabel.font = .appFont(.SubheadlineRegular)
+//            countLabel.snp.makeConstraints { make in
+//                make.right.equalToSuperview().inset(15)
+//                make.centerY.equalToSuperview()
+//                
+//            }
+//        }
         
         return cell
     }

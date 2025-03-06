@@ -1,14 +1,119 @@
-//
-//  Networking.swift
-//  29Pika
-//
-//  Created by Владимир Кацап on 23.12.2024.
-//
-
 import Foundation
 import Alamofire
 
 class Networking {
+    
+    func buyTokens(apphudId: String, tokens: Int, completion: @escaping (Int) -> Void, errorHandler: @escaping () -> Void) {
+        let token = "rE176kzVVqjtWeGToppo4lRcbz3HRLoBrZREEvgQ8fKdWuxySCw6tv52BdLKBkZTOHWda5ISwLUVTyRoZEF0A33Xpk63lF9wTCtDxOs8XK3YArAiqIXVb7ZS4IK61TYPQMu5WqzFWwXtZc1jo8w"
+        
+        let header: HTTPHeaders = [(.authorization(bearerToken: token))]
+        let parameters: Parameters = ["userId" : apphudId, "bundleId" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n", "generations" : "\(tokens)"]
+        
+        AF.request("https://pikversapp.site/api/user", method: .post, parameters: parameters, headers: header).responseData { response in
+            switch response.result {
+            case .success(let data):
+                print(response.response)
+//                if let rawResponse = String(data: data, encoding: .utf8) {
+//                    print("Raw Response to generateEffect:\n\(rawResponse)")
+//                } else {
+//                    print("Unable to parse raw response as string.")
+//                }
+                do {
+                    let userInfo = try JSONDecoder().decode(UserInfo.self, from: data)
+                    completion(userInfo.data.availableGenerations)
+                } catch {
+                    print("Ошибка декодирования JSON:", error.localizedDescription)
+                    errorHandler()
+                }
+            case .failure(_) :
+                print(response.response)
+                print("Tokens handler error")
+                errorHandler()
+            }
+        }
+        
+    }
+    
+    func fetchCurrentTokens(apphudId: String, completion: @escaping (Int) -> Void, errorHandler: @escaping () -> Void) {
+        let token = "rE176kzVVqjtWeGToppo4lRcbz3HRLoBrZREEvgQ8fKdWuxySCw6tv52BdLKBkZTOHWda5ISwLUVTyRoZEF0A33Xpk63lF9wTCtDxOs8XK3YArAiqIXVb7ZS4IK61TYPQMu5WqzFWwXtZc1jo8w"
+        
+        let header: HTTPHeaders = [(.authorization(bearerToken: token))]
+        let parameters: Parameters = ["userId" : apphudId, "bundleId" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n"]
+        
+        AF.request("https://pikversapp.site/api/user", method: .get, parameters: parameters, headers: header).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let userInfo = try JSONDecoder().decode(UserInfo.self, from: data)
+                    print(userInfo)
+                    completion(userInfo.data.availableGenerations)
+                } catch {
+                    print("Ошибка декодирования JSON:", error.localizedDescription)
+                    errorHandler()
+                }
+            case  .failure(_):
+                errorHandler()
+            }
+        }
+    }
+    
+    func experiment(apphudId: String, completion: @escaping (Bool) -> Void, errorHandler: @escaping () -> Void) {
+        let urlStr = "https://metric.viewprotech.shop/api/campaign/XTbOOvq8bR71EuE"
+        let param: Parameters = ["appHudUserId": apphudId]
+        AF.request(urlStr, method: .post, parameters: param).responseData { response in
+            switch response.result {
+            case .success(let data):
+                if let rawResponse = String(data: data, encoding: .utf8) {
+                    print("Raw Response to generateEffect:\n\(rawResponse)")
+                } else {
+                    print("Unable to parse raw response as string.")
+                }
+                do {
+                    let exp = try JSONDecoder().decode(Experiment.self, from: data)
+                    if let exp = exp.first {
+                        if exp.segment == "v1" {
+                            print("FirstType")
+                            completion(false)
+                        } else {
+                            completion(true)
+                            print("secondType")
+                        }
+                    } else {
+                        completion(true)
+                    }
+                } catch {
+                    print("Ошибка декодирования JSON:", error.localizedDescription)
+                    completion(true)
+                }
+            case .failure(_) :
+                completion(true)
+            }
+        }
+    }
+    
+    func fetchTemplatesByCategory(completion: @escaping (TemplatesByCategory) -> Void, errorHandler: @escaping () -> Void) {
+        let token = "rE176kzVVqjtWeGToppo4lRcbz3HRLoBrZREEvgQ8fKdWuxySCw6tv52BdLKBkZTOHWda5ISwLUVTyRoZEF0A33Xpk63lF9wTCtDxOs8XK3YArAiqIXVb7ZS4IK61TYPQMu5WqzFWwXtZc1jo8w"
+        
+        let header: HTTPHeaders = [(.authorization(bearerToken: token))]
+        let parameters: Parameters = ["isNew" : "true", "appName" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n", "ai[0]": ["pv"], "ai[1]": ["pika"]]
+        
+        AF.request("https://pikversapp.site/api/templatesByCategories", method: .get, parameters: parameters, headers: header).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let templates = try JSONDecoder().decode(TemplatesByCategory.self, from: data)
+                    print(templates.data.first?.categoryTitleRu)
+                    completion(templates)
+                } catch {
+                    print("Ошибка декодирования JSON:", error.localizedDescription)
+                    errorHandler()
+                }
+            case  .failure(_):
+                errorHandler()
+            }
+        }
+    }
+    
     func loadEffectsArr(escaping: @escaping(_ escaping: [Effect]) -> Void) {
         let token = "rE176kzVVqjtWeGToppo4lRcbz3HRLoBrZREEvgQ8fKdWuxySCw6tv52BdLKBkZTOHWda5ISwLUVTyRoZEF0A33Xpk63lF9wTCtDxOs8XK3YArAiqIXVb7ZS4IK61TYPQMu5WqzFWwXtZc1jo8w"
         
@@ -99,3 +204,9 @@ class Networking {
     }
     
 }
+
+struct ExperimentElement: Codable {
+    let segment: String
+}
+
+typealias Experiment = [ExperimentElement]

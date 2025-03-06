@@ -14,13 +14,13 @@ import Alamofire
 class PurchaseManager: NSObject {
     
     let paywallID = "main"
+    let paywallID1 = "Tokens"
     var productsApphud: [ApphudProduct] = []
+    var productsApphud1: [ApphudProduct] = []
     
     var hasUnlockedPro: Bool {
         return Apphud.hasPremiumAccess()
     }
-    
-
 
     @MainActor
     func dateSubscribe() -> String {
@@ -42,16 +42,19 @@ class PurchaseManager: NSObject {
         let selectedProduct = produst
         Apphud.purchase(selectedProduct) { result in
             if let error = result.error {
-                debugPrint(error.localizedDescription)
-               escaping(false)
-            }
-            debugPrint(result)
-            if let subscription = result.subscription, subscription.isActive() {
-                escaping(true)
-            } else {
-                if Apphud.hasActiveSubscription() {
+                debugPrint("Ошибка покупки: \(error.localizedDescription)")
+                escaping(false)
+            } else if result.success {
+                if let nonRenewingPurchase = result.nonRenewingPurchase {
+                    debugPrint("покупка успешна: \(nonRenewingPurchase.productId)")
                     escaping(true)
-                } 
+                } else {
+                    debugPrint("Покупка успешна, но покупка не обнаружена")
+                    escaping(false)
+                }
+            } else {
+                debugPrint("Покупка не прошла")
+                escaping(false)
             }
         }
     }
@@ -67,6 +70,24 @@ class PurchaseManager: NSObject {
                 
                 let products = paywall.products
                 self.productsApphud = products
+                
+                print(products, "Proddd")
+                for i in products {
+                    print(i.productId, "ID")
+                }
+                escaping()
+            }
+        }
+    }
+    
+    @MainActor
+    func loadPaywalls1(escaping: @escaping() -> Void) {
+        Apphud.paywallsDidLoadCallback { paywalls, arg in
+            if let paywall = paywalls.first(where: { $0.identifier == self.paywallID1}) {
+                Apphud.paywallShown(paywall)
+                
+                let products = paywall.products
+                self.productsApphud1 = products
                 
                 print(products, "Proddd")
                 for i in products {

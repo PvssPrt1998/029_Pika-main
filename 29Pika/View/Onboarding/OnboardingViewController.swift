@@ -98,22 +98,25 @@ class OnboardingViewController: UIViewController {
         if tap <= arr.count {
             collection.scrollToItem(at: IndexPath(row: tap, section: 0), at: .centeredHorizontally, animated: true)
             pageControl.currentPage = tap
-        } 
+        }
     }
     
     @objc private func rate() {
-//        guard let url = URL(string: "itms-apps://itunes.apple.com/app/id6739883934?action=write-review") else { //как пример - 6737510164
-//            return
-//        }
-//        
-//        if UIApplication.shared.canOpenURL(url) {
-//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//        } else {
-//            print("Unable to open App Store")
-//        }
-        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-                            SKStoreReviewController.requestReview(in: scene)
-                        }
+        guard let url = URL(string: "itms-apps://itunes.apple.com/app/id6739883934?action=write-review") else { //как пример - 6737510164
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            print("Unable to open App Store")
+        }
+        tap += 1
+        collection.scrollToItem(at: IndexPath(row: tap, section: 0), at: .centeredHorizontally, animated: true)
+        pageControl.currentPage = tap
+//        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+//                            SKStoreReviewController.requestReview(in: scene)
+//                        }
     }
 
 }

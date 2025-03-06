@@ -96,15 +96,15 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         activityIndicator.startAnimating()
         
-        mainView.addSubview(likeButton)
-        likeButton.snp.makeConstraints { make in
-            make.right.bottom.equalToSuperview().inset(15)
-            make.height.width.equalTo(48)
-        }
+//        mainView.addSubview(likeButton)
+//        likeButton.snp.makeConstraints { make in
+//            make.right.bottom.equalToSuperview().inset(15)
+//            make.height.width.equalTo(48)
+//        }
         
-        likeButton.setImage(isLike() ? .like.withRenderingMode(.alwaysOriginal).resize(targetSize: CGSize(width: 32, height: 32)) : .dislike.withRenderingMode(.alwaysOriginal).resize(targetSize: CGSize(width: 32, height: 32)), for: .normal)
-        likeButton.tintColor = isLike() ? .systemRed : .white
-        likeButton.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
+//        likeButton.setImage(isLike() ? .like.withRenderingMode(.alwaysOriginal).resize(targetSize: CGSize(width: 32, height: 32)) : .dislike.withRenderingMode(.alwaysOriginal).resize(targetSize: CGSize(width: 32, height: 32)), for: .normal)
+//        likeButton.tintColor = isLike() ? .systemRed : .white
+//        likeButton.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
         
         let useButton = UIButton(type: .system)
         useButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
@@ -117,18 +117,28 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         useButton.backgroundColor = .secondary
         mainView.addSubview(useButton)
         useButton.snp.makeConstraints { make in
-            make.left.bottom.equalToSuperview().inset(15)
+            make.left.bottom.right.equalToSuperview().inset(15)
             make.height.equalTo(48)
-            make.right.equalTo(likeButton.snp.left).inset(-10)
+            //make.right.equalTo(likeButton.snp.left).inset(-10)
         }
         
         player = VideoPlayerView()
         player?.layer.cornerRadius = 10
         player?.clipsToBounds = true
         player?.playerLayer.videoGravity = .resizeAspectFill
-        if let url = Bundle.main.url(forResource: item.previewSmall ?? "", withExtension: "mp4") {
+//        if let url = Bundle.main.url(forResource: item.previewSmall ?? "", withExtension: "mp4") {
+//            player?.play(for: url)
+//            player?.isMuted = true
+//        }
+        if let localUrl = item.localUrl, let url = URL(string: localUrl) {
             player?.play(for: url)
+            print("LOCAL LOADED")
             player?.isMuted = true
+        } else {
+            if let urlStr = item.previewSmall, let url = URL(string: urlStr) {
+                player?.play(for: url)
+                player?.isMuted = true
+            }
         }
         
         mainView.addSubview(player ?? UIView())

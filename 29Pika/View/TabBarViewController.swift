@@ -1,10 +1,3 @@
-//
-//  TabBarViewController.swift
-//  titEggs
-//
-//  Created by Владимир Кацап on 04.11.2024.
-//
-
 import UIKit
 import SnapKit
 import Combine
@@ -67,7 +60,7 @@ class TabBarViewController: UITabBarController {
 
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.white,
-            .font: UIFont.systemFont(ofSize: 22, weight: .bold)
+            .font: UIFont.systemFont(ofSize: 17, weight: .semibold) //22
         ]
 
         navigationController.navigationBar.standardAppearance = appearance
@@ -111,7 +104,10 @@ class TabBarViewController: UITabBarController {
             make.top.equalToSuperview()
         }
         
-        let createVCNo = EffectsViewController(model: model)
+        var createVCNo: UIViewController = EffectsViewController(model: model)
+        if model.isSecondType {
+            createVCNo = EffectsViewControllerV2(model: model)
+        }
         let settingsVCNo = SettingsViewController(model: model)
         let myVideosVCNo = HistoryViewController(model: model)
         
