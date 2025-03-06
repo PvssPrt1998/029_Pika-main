@@ -190,8 +190,8 @@ class EffectsViewController: UIViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)//NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item], count)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         
         return section
     }
@@ -347,7 +347,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
             nameLabel.font = .appFont(.Title2Regular)
             cell.addSubview(nameLabel)
             nameLabel.snp.makeConstraints { make in
-                make.left.equalToSuperview().inset(15)
+                make.left.equalToSuperview().inset(4)
                 make.top.equalToSuperview()//.inset(15)
             }
             
@@ -357,7 +357,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
             bgView.clipsToBounds = true
             cell.addSubview(bgView)
             bgView.snp.makeConstraints { make in
-                make.left.right.equalToSuperview().inset(15)
+                make.left.right.equalToSuperview().inset(4)
                 make.bottom.equalToSuperview()
                 make.top.equalTo(nameLabel.snp.bottom).inset(-8)
             }
@@ -380,7 +380,7 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
             player.addGestureRecognizer(tap)
             cell.addSubview(player)
             player.snp.makeConstraints { make in
-                make.left.right.equalToSuperview().inset(15)
+                make.left.right.equalToSuperview().inset(4)
                 make.bottom.equalToSuperview()
                 make.top.equalTo(nameLabel.snp.bottom).inset(-8)
             }
