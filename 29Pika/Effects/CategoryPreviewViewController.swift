@@ -123,6 +123,8 @@ class CategoryPreviewViewController: UIViewController {
         }
     }
     
+    
+    
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
             switch sectionIndex {

@@ -32,9 +32,7 @@ class TabBarViewController: UITabBarController {
         self.showNavigationBar()
         setupNav()
     }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         proButton.addTarget(self, action: #selector(openPaywall), for: .touchUpInside)
@@ -93,7 +91,6 @@ class TabBarViewController: UITabBarController {
         tabBar.backgroundColor = .bgSecond
         tabBar.isTranslucent = false
         tabBar.barTintColor = UIColor.bgSecond
-        //tabBar.barTintColor = UIColor.bgSecond
         
         let separatorView = UIView()
         separatorView.backgroundColor = .white.withAlphaComponent(0.24)
@@ -105,7 +102,7 @@ class TabBarViewController: UITabBarController {
         }
         
         var createVCNo: UIViewController = EffectsViewController(model: model)
-        if model.isSecondType {
+        if !model.isSecondType {
             createVCNo = EffectsViewControllerV2(model: model)
         }
         let settingsVCNo = SettingsViewController(model: model)

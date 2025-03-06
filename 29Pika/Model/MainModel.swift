@@ -39,12 +39,6 @@ class MainModel {
     
     init() {
         localLoad()
-        netWorking.buyTokens(apphudId: userID, tokens: 10) { tokens in
-            print("Tokens buyed")
-            print(tokens)
-        } errorHandler: {
-            
-        }
 
         netWorking.fetchCurrentTokens(apphudId: userID) { availableTokens in
             self.tokens = availableTokens
@@ -99,9 +93,16 @@ class MainModel {
                     }
                 }
             }
+            let index = self.arr.firstIndex(where: {$0.header == "Popular"})
+            if let index = index {
+                let val = self.arr[index]
+                self.arr.remove(at: index)
+                self.arr.insert(val, at: 0)
+            }
         } errorHandler: {
             
         }
+        
     }
     
     func localLoad() {
@@ -183,10 +184,16 @@ class MainModel {
                 }
                 
             }
-            
+            let index = self.arr.firstIndex(where: {$0.header == "Popular"})
+            if let index = index {
+                let val = self.arr[index]
+                self.arr.remove(at: index)
+                self.arr.insert(val, at: 0)
+            }
         } errorHandler: {
             
         }
+        
     }
     
     func isEqualEffectAndTemplate(effect: Effect, template: Template) -> Bool {

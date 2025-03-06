@@ -9,7 +9,7 @@ class Networking {
         let header: HTTPHeaders = [(.authorization(bearerToken: token))]
         let parameters: Parameters = ["userId" : apphudId, "bundleId" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n", "generations" : "\(tokens)"]
         
-        AF.request("https://pikversapp.site/api/user", method: .post, parameters: parameters, headers: header).responseData { response in
+        AF.request("https://vewapnew.online/api/user", method: .post, parameters: parameters, headers: header).responseData { response in
             switch response.result {
             case .success(let data):
                 print(response.response)
@@ -40,7 +40,7 @@ class Networking {
         let header: HTTPHeaders = [(.authorization(bearerToken: token))]
         let parameters: Parameters = ["userId" : apphudId, "bundleId" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n"]
         
-        AF.request("https://pikversapp.site/api/user", method: .get, parameters: parameters, headers: header).responseData { response in
+        AF.request("https://vewapnew.online/api/user", method: .get, parameters: parameters, headers: header).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
@@ -97,7 +97,7 @@ class Networking {
         let header: HTTPHeaders = [(.authorization(bearerToken: token))]
         let parameters: Parameters = ["isNew" : "true", "appName" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n", "ai[0]": ["pv"], "ai[1]": ["pika"]]
         
-        AF.request("https://pikversapp.site/api/templatesByCategories", method: .get, parameters: parameters, headers: header).responseData { response in
+        AF.request("https://vewapnew.online/api/templatesByCategories", method: .get, parameters: parameters, headers: header).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
@@ -120,7 +120,7 @@ class Networking {
         let header: HTTPHeaders = [(.authorization(bearerToken: token))]
         let parameters: Parameters = ["appName" : Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n", "ai[0]": ["pv"], "ai[1]": ["pika"]]
         
-        AF.request("https://pikversapp.site/api/templates", method: .get, parameters: parameters, headers: header).responseData { response in
+        AF.request("https://vewapnew.online/api/templates", method: .get, parameters: parameters, headers: header).responseData { response in
            // debugPrint(response, "dfsfdvffdv")
             switch response.result {
             case .success(let data):
@@ -154,7 +154,7 @@ class Networking {
             multipartFormData.append(data, withName: "image", fileName: "image.jpg", mimeType: "image/jpeg")
             multipartFormData.append(Data(userID.utf8), withName: "userId")
             multipartFormData.append(Data((Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n").utf8), withName: "appId")
-        }, to: "https://pikversapp.site/api/generate", headers: headers)
+        }, to: "https://vewapnew.online/api/generate", headers: headers)
         .responseData { response in
            // debugPrint(response, "createOK")
             switch response.result {
@@ -184,7 +184,7 @@ class Networking {
         let param: Parameters = ["generationId": itemId, "appId": Bundle.main.bundleIdentifier ?? "com.dmyver.skp1l3n"]
 
         
-        AF.request("https://pikversapp.site/api/generationStatus", method: .get, parameters: param, headers: header).responseData { response in
+        AF.request("https://vewapnew.online/api/generationStatus", method: .get, parameters: param, headers: header).responseData { response in
             //debugPrint(response, "statusGettttt")
             switch response.result {
             case .success(let data):

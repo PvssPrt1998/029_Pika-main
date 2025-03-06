@@ -396,7 +396,7 @@ extension TokensPaywallViewController: UICollectionViewDelegate, UICollectionVie
         let item = model.purchaseManager.productsApphud1[indexPath.row]
         let value = getTokensAmount(for: item)
         let nameLabel = UILabel()
-        nameLabel.text = value
+        nameLabel.text = item.skProduct?.localizedTitle ?? "Error"
         nameLabel.textColor = .white
         nameLabel.font = .appFont(.Title3Emphasized)
         cell.addSubview(nameLabel)
@@ -428,6 +428,7 @@ extension TokensPaywallViewController: UICollectionViewDelegate, UICollectionVie
         }
         
         let price: Double = getSubscriptionPrice(for: item)
+        print(price)
         
         let countLabel = UILabel()
         countLabel.textColor = .white

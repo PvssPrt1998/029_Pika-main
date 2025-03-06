@@ -310,7 +310,6 @@ extension EffectsViewController: UICollectionViewDelegate, UICollectionViewDataS
             .store(in: &cancellable)
     }
     
-    
     private func noConnectionAlert() {
         let alert = UIAlertController(title: "Error", message: "No internet connection", preferredStyle: .alert)
         
